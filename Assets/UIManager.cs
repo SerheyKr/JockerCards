@@ -96,7 +96,6 @@ public class UIManager : MonoBehaviour
 			cardPrefab.SetActive(true);
 			var uiCard = GameObject.Instantiate(cardPrefab);
 
-			uiCard.transform.position = new Vector3(120 * i + 500, 500);
 			uiCard.transform.SetParent(cardsField.transform, true);
 
 			uiCards.Add(uiCard.GetComponent<UICard>());
