@@ -34,13 +34,13 @@ public class UIManager : MonoBehaviour
 	[SerializeField]
 	private GameObject GameScreen;
 
-    private void Start()
+	private void Start()
 	{
 		GenerateCards(main.CardsNumber);
 		UpdateNumbers();
-        StartScreen.SetActive(true);
+		StartScreen.SetActive(true);
 		GameScreen.SetActive(false);
-    }
+	}
 
 	private void UpdateNumbers() 
 	{
@@ -49,7 +49,7 @@ public class UIManager : MonoBehaviour
 		costText.text = $"Cost: {Math.Round(main.RollCost, 1)}";
 		brawlText.text = $"Brawls: {main.BrawlCount}";
 
-    }
+	}
 
 	private void PlaceCards(List<Card> cards) 
 	{
@@ -112,7 +112,24 @@ public class UIManager : MonoBehaviour
 
 	public void StartGame() 
 	{
-        StartScreen.SetActive(false);
+		StartScreen.SetActive(false);
 		GameScreen.SetActive(true);
-    }
+	}
+
+	public void ShowInfo()
+	{
+		StartScreen.SetActive(true);
+		GameScreen.SetActive(false);
+	}
+
+	public void RestartGame()
+	{
+		main.RestartGame();
+		UpdateNumbers();
+	}
+
+	public void ExitGame()
+	{
+		Application.Quit();
+	}
 }

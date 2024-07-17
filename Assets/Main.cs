@@ -41,7 +41,7 @@ public class Main : SingletonMonoBehaviour<Main>
 	[SerializeField]
 	private double brawlBonus = 25d;
 
-    public List<Card> Roll() 
+	public List<Card> Roll() 
 	{
 		if (curentCash - rollCost < 0) 
 		{
@@ -90,12 +90,12 @@ public class Main : SingletonMonoBehaviour<Main>
 		}
 
 		curentWin = 0;
-        foreach (var card in cards) 
+		foreach (var card in cards) 
 		{
 			if (brawlCount >= 3 && card.IsDrawl) 
 			{
-                curentWin += card.CardPrice;
-            } else if (card.IsJoker) // Card can`t be joker and straif at same time
+				curentWin += card.CardPrice;
+			} else if (card.IsJoker) // Card can`t be joker and straif at same time
 			{
 				curentWin += card.CardPrice;
 			}
@@ -104,5 +104,12 @@ public class Main : SingletonMonoBehaviour<Main>
 		curentCash += curentWin;
 
 		return cards;
+	}
+
+	public void RestartGame()
+	{
+		curentCash = 100;
+		curentWin = 0;
+		brawlCount = 0;
 	}
 }
