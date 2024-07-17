@@ -92,7 +92,7 @@ public class Main : SingletonMonoBehaviour<Main>
 		curentWin = 0;
 		foreach (var card in cards) 
 		{
-			if (brawlCount >= 3 && card.IsDrawl) 
+			if (brawlCount >= 3 && card.IsBrawl) 
 			{
 				curentWin += card.CardPrice;
 			} else if (card.IsJoker) // Card can`t be joker and straif at same time
