@@ -21,6 +21,9 @@ public class UIManager : MonoBehaviour
 	private TMP_Text totalCashText;
 
 	[SerializeField]
+	private TMP_Text brawlText;
+
+	[SerializeField]
 	private TMP_Text winText;
 
 	[SerializeField]
@@ -41,10 +44,12 @@ public class UIManager : MonoBehaviour
 
 	private void UpdateNumbers() 
 	{
-		totalCashText.text = $"Total cash: {(int)main.CurentCash}";
-		winText.text = $"Win: {(int)main.CurentWin}";
-		costText.text = $"Cost: {(int)main.RollCost}";
-	}
+		totalCashText.text = $"Total cash: {Math.Round(main.CurentCash, 2)}";
+		winText.text = $"Win: {Math.Round(main.CurentWin, 2)}";
+		costText.text = $"Cost: {Math.Round(main.RollCost, 1)}";
+		brawlText.text = $"Brawls: {main.BrawlCount}";
+
+    }
 
 	private void PlaceCards(List<Card> cards) 
 	{

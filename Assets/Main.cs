@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Main : MonoBehaviour
+public class Main : SingletonMonoBehaviour<Main>
 {
 	[SerializeField]
 	private int cardsNumber = 10;
@@ -19,23 +19,29 @@ public class Main : MonoBehaviour
 	[SerializeField]
 	private double rollCost = 1.95d;
 	public double RollCost => rollCost;
-	public static double WinMultiplayer => winMultiplayer;
-	public static double BasicWin => basicWin;
+	public double WinMultiplayer => winMultiplayer;
+	public double BasicWin => basicWin;
+
+	private int brawlCount = 0;
+	public int BrawlCount => brawlCount;
 
 
 	[SerializeField]
-	private float straifChance = 15;
+	private float brawlChance = 15;
 	[SerializeField]
 	private float jokerChance = 5;
 	[SerializeField]
-	private int maxStraifCount = 3; // set to -1 to unlimited
+	private int maxDrawlCount = 3; // set to -1 to unlimited
 	[SerializeField]
 	private int maxJokerCount = 3; // set to -1 to unlimited
 	[SerializeField]
-	private const double winMultiplayer = 0.15d;
-	private const double basicWin = 1d;
+	private double winMultiplayer = 0.15d;
+	[SerializeField]
+	private double basicWin = 1d;
+	[SerializeField]
+	private double brawlBonus = 25d;
 
-	public List<Card> Roll() 
+    public List<Card> Roll() 
 	{
 		if (curentCash - rollCost < 0) 
 		{
@@ -43,8 +49,6 @@ public class Main : MonoBehaviour
 			return new List<Card>();
 		}
 		curentCash -= rollCost;
-		curentCash += curentWin;
-		curentWin = 0;
 
 		return GenerateCards();
 	}
@@ -53,7 +57,7 @@ public class Main : MonoBehaviour
 	{
 		List<Card> cards = new List<Card>();
 		var jokerCount = 0;
-		var straifCount = 0;
+		brawlCount = 0;
 
 		for (int i = 0; i < cardsNumber; i++) 
 		{
@@ -68,25 +72,27 @@ public class Main : MonoBehaviour
 			if (isJoker)
 				jokerCount++;
 
-			bool isStraif = !isJoker && (roll < straifChance);// Don`t wanna to be at one time both joker and straif
+			bool isBrawl = !isJoker && (roll < brawlChance);// Don`t wanna to be at one time both joker and drawl
 
-			if (maxStraifCount != -1 && straifCount >= maxStraifCount)
+			if (maxDrawlCount != -1 && brawlCount >= maxDrawlCount)
 			{
-				isStraif = false;
+				isBrawl = false;
 			}
-			if (isStraif)
-				straifCount++;
+			if (isBrawl)
+				brawlCount++;
 
 			var card = new Card(Random.Range(1, 10),
 								Random.Range(0, 3),
-								isStraif,
-								isJoker);
+								isBrawl,
+								isJoker,
+								isBrawl ? brawlCount * brawlBonus : 0);
 			cards.Add(card);
 		}
 
-		foreach (var card in cards) 
+		curentWin = 0;
+        foreach (var card in cards) 
 		{
-			if (straifCount >= 3 && card.IsStraif) 
+			if (brawlCount >= 3 && card.IsDrawl) 
 			{
                 curentWin += card.CardPrice;
             } else if (card.IsJoker) // Card can`t be joker and straif at same time
@@ -94,6 +100,8 @@ public class Main : MonoBehaviour
 				curentWin += card.CardPrice;
 			}
 		}
+
+		curentCash += curentWin;
 
 		return cards;
 	}

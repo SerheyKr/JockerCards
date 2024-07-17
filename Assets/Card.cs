@@ -8,16 +8,19 @@ public class Card
 {
     public int Number { get; private set; }
     public int Symbol { get; private set; }
-    public bool IsStraif { get; private set; }
+    public bool IsDrawl { get; private set; }
     public bool IsJoker { get; private set; }
 
-    public double CardPrice => Number * Main.WinMultiplayer + Main.BasicWin;
+    private double Bonus;
 
-    public Card(int number, int cardSymbol, bool isStraif, bool isJoker) 
+    public double CardPrice => Number * Main.Instance.WinMultiplayer + Main.Instance.BasicWin + Bonus;
+
+    public Card(int number, int cardSymbol, bool isDrawl, bool isJoker, double bonus) 
     {
         Number = number;
         Symbol = cardSymbol;
         IsJoker = isJoker;
-        IsStraif = isStraif;
+        IsDrawl = isDrawl;
+        Bonus = bonus;
     }
 }

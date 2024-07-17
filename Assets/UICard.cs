@@ -16,6 +16,8 @@ public class UICard : MonoBehaviour
     private TMP_Text cardJoker;
     [SerializeField]
     private TMP_Text cardStraif;
+    [SerializeField]
+    private TMP_Text cardPrice;
 
     private void Start()
     {
@@ -23,6 +25,7 @@ public class UICard : MonoBehaviour
         cardNumber.gameObject.SetActive(false);
         cardJoker.gameObject.SetActive(false);
         cardStraif.gameObject.SetActive(false);
+        cardPrice.gameObject.SetActive(false);
     }
 
     public void UpdateCard(Card card)
@@ -31,11 +34,13 @@ public class UICard : MonoBehaviour
 
         cardNumber.text = card.Number.ToString();
         cardSymbl.text = card.Symbol.ToString();
+        cardPrice.text = $"{card.CardPrice}$";
 
         cardSymbl.gameObject.SetActive(true);
         cardNumber.gameObject.SetActive(true);
+        cardPrice.gameObject.SetActive(true);
 
         cardJoker.gameObject.SetActive(card.IsJoker);
-        cardStraif.gameObject.SetActive(card.IsStraif);
+        cardStraif.gameObject.SetActive(card.IsDrawl);
     }
 }
